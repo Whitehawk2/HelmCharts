@@ -1,0 +1,28 @@
+1. If you forgot to set a custom hostname (for nginx and certs),
+   re-run this chart with "--set ingress.host=<HOST>"
+   (Also, for email: "--set cert.email=<email>")
+
+2. For cert-manager (see instructions below), the default ClusterIssuer
+   defaults to using ACME PRODUCTION, i.e, real certificats.
+   For testing purposes, use "--set cert.isStaging=true" to
+   use ACME staging server.
+
+3. This chart defaults to working on google cloud platform,
+   and creates a StorageClass & some routing annotations
+   to accomodate that.
+
+4. Some things are still WIP and are NOT dynamic yet - i.e, ingress.
+
+have fun!
+
+--------------------------------------------------------------------
+
+Please install cert-manager if you want/need SSL:
+  """
+  helm install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.5.1 \
+  --set installCRDs=true
+  """

@@ -1,0 +1,23 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: echov5-dev
+  namespace: dev
+  annotations:
+    fluxcd.io/automated: "true"
+    filter.fluxcd.io/chart-image: glob:dev-*
+spec:
+  releaseName: echov5-dev
+  chart:
+    git: git@github.com:Whitehawk2/helm-operator-get-started
+    path: charts/podinfo
+    ref: master
+  values:
+    image:
+      # repository: stefanprodan/podinfo
+      repository: eu.gcr.io/theta-era-322507/echov5
+      tag: dev-mhx155vo
+    replicaCount: 1
+    hpa:
+      enabled: false

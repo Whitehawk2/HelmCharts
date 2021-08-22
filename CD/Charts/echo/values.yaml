@@ -1,0 +1,100 @@
+# Default values for echo_v4.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+
+image:
+  repository: eu.gcr.io/theta-era-322507/echo-v2
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+app:
+  containerPort: 3000
+
+secret:
+  name: echo-mongodb-secret
+  url: mongodb://user:password@mongo-service/echo?authSource=echo&ReplicaSet=MainRepSet
+
+configmap:
+  name: myconfigmap
+  persist: "True"
+  loglevel: info
+
+service:
+  type: ClusterIP
+  port: 8080
+
+cert:
+  isStaging: true
+  server:
+    prod: https://acme-v02.api.letsencrypt.org/directory
+    stage: https://acme-staging-v02.api.letsencrypt.org/directory
+  email: mlem@mlemlem.xyz
+
+cleaner:
+  restartPolicy: OnFailure
+  schedule: "1 0 * * *"
+
+StorageClass:
+  name: &scname "slow"
+  provisioner: kubernetes.io/gce-pd
+  gcp:
+    type: pd-standard
+    fstype: xfs
+  replicationtype: none
+
+ingress:
+  host: www.just4testingbro.ga
+  # Saved for next version: ingress dynamically
+  #  enabled: true
+  #  #className: "ngnix"
+  #  annotations: 
+  #  kubernetes.io/ingress.class: nginx
+  #    nginx.ingress.kubernetes.io/rewrite-target: /
+  #    cert-manager.io/cluster-issuer: "letsencrypt-issue"
+  #    kubernetes.io/tls-acme: "true"
+  #  hosts:
+  #    - host: www.everyoneneedssomeonethatshoutsbackatthem420.ga
+  #      paths:
+  #        - path: /
+  #          pathType: Prefix
+  #  tls: 
+  #    - secretName: letsencrypt-cert
+  #      hosts:
+  #        - www.everyoneneedssomeonethatshoutsbackatthem420.ga
+  #
+
+
+resources: 
+   limits:
+     cpu: 300m
+     memory: 256Mi
+   requests:
+     cpu: 200m
+     memory: 128Mi
+
+mongodb:
+  architecture: replicaset
+  useStatefulSet: true
+  auth:
+    rootPassword: "password"
+    username: "user"
+    password: "password"
+    database: "echo"
+    replicaSetKey: "dg9CxJWOnuprgQ=="
+  replicaSetName: MainRepSet
+  replicaCount: 3
+  service:
+    nameOverride: "mongo-service"
+    clusterIP: "None"
+  persistence:
+    storageClass: *scname
+    size: 1Gi
+  arbiter:
+    enabled: false
+

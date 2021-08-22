@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-issue
+  namespace: cert-manager
+spec:
+  acme:
+    server: {{ ternary .Values.cert.server.stage .Values.cert.server.prod .Values.cert.isStaging }}
+    email: {{ .Values.cert.email }}
+    # Name of a secret to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-cert
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+

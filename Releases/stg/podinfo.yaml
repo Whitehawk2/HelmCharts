@@ -1,0 +1,26 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: podinfo-rc
+  namespace: stg
+  annotations:
+    fluxcd.io/automated: "true"
+    filter.fluxcd.io/chart-image: glob:stg-*
+spec:
+  releaseName: podinfo-rc
+  chart:
+    git: git@github.com:whitehawk2/helm-operator-get-started
+    path: charts/podinfo
+    ref: master
+  values:
+    image:
+      #repository: stefanprodan/podinfo
+      repository: eu.gcr.io/theta-era-322507/podinfo
+      tag: stg-9ij63o4c
+    replicaCount: 2
+    hpa:
+      enabled: true
+      maxReplicas: 10
+      cpu: 50
+      memory: 256Mi

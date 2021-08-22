@@ -1,0 +1,21 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: podinfo-prod
+  namespace: prod
+  annotations:
+    fluxcd.io/automated: "true"
+    filter.fluxcd.io/chart-image: semver:~0.4
+spec:
+  releaseName: podinfo-prod
+  chart:
+    git: git@github.com:Whitehawk2/helm-operator-get-started
+    path: charts/podinfo
+    ref: master
+  values:
+    image:
+      #repository: stefanprodan/podinfo
+      repository: eu.gcr.io/theta-era-322507/podinfo
+      tag: 0.4.11
+    replicaCount: 3

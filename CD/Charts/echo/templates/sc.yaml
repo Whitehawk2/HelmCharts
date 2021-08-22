@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.StorageClass.name }}
+provisioner: {{ .Values.StorageClass.provisioner }}  #kubernetes.io/gce-pd
+parameters:
+  {{- if eq .Values.StorageClass.provisioner "kubernetes.io/gce-pd" }}
+  type: {{ .Values.StorageClass.gcp.type }}
+  fstype: {{ .Values.StorageClass.gcp.fstype }}
+  replication-type: {{ .Values.StorageClass.replicationtype }}
+  {{- end }}

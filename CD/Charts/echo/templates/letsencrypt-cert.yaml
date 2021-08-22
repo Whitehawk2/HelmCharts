@@ -1,0 +1,7 @@
+# DONT CHANGE THIS
+apiVersion: v1
+kind: Secret
+metadata:
+  name: letsencrypt-cert
+type: Opaque
+

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "echo_v4.fullname" . }}
+  labels:
+    {{- include "echo_v4.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "echo_v4.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "echo_v4.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory | quote  }}
+              cpu: {{ .Values.resources.requests.cpu | quote  }}
+            limits:
+              memory: {{ .Values.resources.limits.memory | quote  }}
+              cpu: {{ .Values.resources.limits.cpu | quote  }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.app.containerPort }}
+              protocol: TCP
+          env:
+            - name: MONGODBURL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name  }}
+                  key: mongo-db-url
+            - name: PERSIST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.configmap.name  }}
+                  key: PERSIST
+            - name: LOGLEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.configmap.name }}
+                  key: LOGLEVEL
