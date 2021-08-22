@@ -11,7 +11,7 @@ spec:
   releaseName: echov5-dev
   chart:
     git: git@github.com:Whitehawk2/HelmCharts
-    path: CD/charts/echo
+    path: CD/Charts/echo
     ref: master
   values:
     image:
