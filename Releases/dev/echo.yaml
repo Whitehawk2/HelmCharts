@@ -17,7 +17,7 @@ spec:
     image:
       # repository: stefanprodan/podinfo
       repository: eu.gcr.io/theta-era-322507/echov5
-      tag: dev-2phciqmd
+      tag: dev-akdoajns
     replicaCount: 1
     hpa:
       enabled: false
