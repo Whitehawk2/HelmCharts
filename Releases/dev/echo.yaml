@@ -10,8 +10,8 @@ metadata:
 spec:
   releaseName: echov5-dev
   chart:
-    git: git@github.com:Whitehawk2/helm-operator-get-started
-    path: charts/podinfo
+    git: git@github.com:Whitehawk2/HelmCharts
+    path: CD/charts/echo
     ref: master
   values:
     image:
