@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "{{ include "echo_v4.fullname" . }}-{{ .Values.configmap.name }}"
+  name: {{ .Values.configmap.name }}
 data:
   PERSIST: {{ .Values.configmap.persist | quote }} 
   LOGLEVEL: {{ .Values.configmap.loglevel | quote }}

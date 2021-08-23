@@ -77,3 +77,24 @@ resources:
    requests:
      cpu: 200m
      memory: 128Mi
+
+mongodb:
+  architecture: replicaset
+  useStatefulSet: true
+  auth:
+    rootPassword: "password"
+    username: "user"
+    password: "password"
+    database: "echo"
+    replicaSetKey: "dg9CxJWOnuprgQ=="
+  replicaSetName: MainRepSet
+  replicaCount: 3
+  service:
+    nameOverride: "mongo-service"
+    clusterIP: "None"
+  persistence:
+    storageClass: *scname
+    size: 1Gi
+  arbiter:
+    enabled: false
+

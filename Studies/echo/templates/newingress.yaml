@@ -3,19 +3,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "{{ include "echo_v4.fullname" . }}-basic-echo-ingress"
+  name: basic-echo-ingress
   labels:
     {{- include "echo_v4.labels" . | nindent 4 }}
   annotations:
     #acme.cert-manager.io/http01-edit-in-place: "true"
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
-    #cert-manager.io/cluster-issuer: "letsencrypt-issue"
+    cert-manager.io/cluster-issuer: "letsencrypt-issue"
 spec:
-  #tls:
-  #  - hosts:
-  #    - {{ .Values.ingress.host }}
-  #    secretName: letsencrypt-cert
+  tls:
+    - hosts:
+      - {{ .Values.ingress.host }}
+      secretName: letsencrypt-cert
   rules:
   - host: {{ .Values.ingress.host }}
     http:

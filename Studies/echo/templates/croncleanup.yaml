@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: "{{ include "echo_v4.fullname" . }}-mongo-cleaner"
+  name: "mongo-cleaner"
 spec:
   jobTemplate:
     spec:
@@ -17,7 +17,7 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       key: mongo-db-url
-                      name: "{{ include "echo_v4.fullname" . }}-{{ .Values.secret.name }}"
+                      name: {{ .Values.secret.name }}
           restartPolicy: {{ .Values.cleaner.restartPolicy }}
       backoffLimit: {{ .Values.cleaner.backoffLimit }}
 
