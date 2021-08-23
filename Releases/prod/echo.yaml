@@ -5,7 +5,7 @@ metadata:
   name: echov5-prod
   namespace: prod
   annotations:
-    fluxcd.io/automated: "true"
+    fluxcd.io/automated: "false"
     filter.fluxcd.io/chart-image: semver:~0.4
 spec:
   releaseName: echov5-prod
