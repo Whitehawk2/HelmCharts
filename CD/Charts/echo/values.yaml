@@ -22,7 +22,7 @@ secret:
 
 configmap:
   name: myconfigmap
-  #persist: "false"
+  persist: "False"
   loglevel: info
 
 service:
