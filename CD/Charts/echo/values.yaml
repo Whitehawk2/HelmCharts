@@ -29,24 +29,9 @@ service:
   type: ClusterIP
   port: 8080
 
-cert:
-  isStaging: true
-  server:
-    prod: https://acme-v02.api.letsencrypt.org/directory
-    stage: https://acme-staging-v02.api.letsencrypt.org/directory
-  email: mlem@mlemlem.xyz
-
 cleaner:
   restartPolicy: OnFailure
   schedule: "1 0 * * *"
-
-StorageClass:
-  name: &scname "slow"
-  provisioner: kubernetes.io/gce-pd
-  gcp:
-    type: pd-standard
-    fstype: xfs
-  replicationtype: none
 
 ingress:
   host: www.just4testingbro.ga
