@@ -39,11 +39,11 @@ spec:
                 secretKeyRef:
                   name: "{{ include "echo_v4.fullname" . }}-{{ .Values.secret.name  }}"
                   key: mongo-db-url
-            - name: PERSIST
-              valueFrom:
-                configMapKeyRef:
-                  name: "{{ include "echo_v4.fullname" . }}-{{ .Values.configmap.name  }}"
-                  key: PERSIST
+            #- name: PERSIST
+            #  valueFrom:
+            #    configMapKeyRef:
+            #      name: "{{ include "echo_v4.fullname" . }}-{{ .Values.configmap.name  }}"
+            #      key: PERSIST
             - name: LOGLEVEL
               valueFrom:
                 configMapKeyRef:
